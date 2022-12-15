@@ -1,13 +1,13 @@
-const mangoose= require ('mangoose')
+const mongoose = require ("mongoose")
 
 const{MONGODB_URl}=process.env
 
 exports.connect = ()=>{
-    mangoose.connect(MONGODB_URl,{
+    mongoose.connect(MONGODB_URl,{
         useNewUrlParser:true,
         useUnifiedTopology:true
     })
-    .then(console.log(`DB CONNETED SUCCESSFULLY`))
+    .then(console.log(`DB CONNETED SUCCESSFULLY`)) //promisess 
     .catch(error=>{
         console.log(`DB CONNECTION FAILED`);
         console.log(error);

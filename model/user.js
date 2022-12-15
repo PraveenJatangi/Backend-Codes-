@@ -1,6 +1,6 @@
-const mangoose = require("mongoose")
+const mongoose = require("mongoose")
 
-const userSchema = new mangoose.Schema({
+const userSchema = new mongoose.Schema({
      firstname:{
         type:String,//datatype...
         default:null,// if no body gives any data it gonna set null
@@ -11,7 +11,7 @@ const userSchema = new mangoose.Schema({
      },
      email:{
         type:String,
-        unique: true,//
+        unique: true,
          },
 
     password:{
@@ -19,4 +19,4 @@ const userSchema = new mangoose.Schema({
     }
 });
 
-module.exports= mangoose.model('user',userSchema)
+module.exports= mongoose.model('user',userSchema)
