@@ -22,8 +22,8 @@ const express = require("express");// express import
       res.status(400).send("All fields are required");
    }
 
-   const existinguser= await User.findOne ({email});
-   
+   const existinguser= await User.findOne({email});
+     
    if (existinguser){
       res.status(401).send("user already exits");
    }
@@ -49,6 +49,8 @@ const express = require("express");// express import
 
    )
    user.token=token
+
+   user.password=undefined;
    //update or not
    res.status(201).json(user)
       
@@ -57,6 +59,43 @@ const express = require("express");// express import
    }
  });
  
+ //login flow
+
+ app.post("/login", async (req,res)=>{
+    
+   try {
+      
+     const {email,password}=req.body
+     if(!(email&&password)){
+      res.status(400).send("field is missing")
+     }
+
+   const user= await User.findOne({email})
+     
+   // if(!(user)){
+   //    res.status(400).send("you are not registered in this site")
+   // }
+
+   if(user &&(await bcrypt.compare(password,user.password))){
+       const token = jwt.sign(
+         {user_id:user._id,email},
+         process.env.SECRET_KEY,
+         {
+            expiresIn:"2h"
+         }
+       )
+       user.token=token
+       user.password=undefined
+       res.status(200).json(user)
+
+   }
+  res.status(400).send(" email or passowrd is incorrect")
+    
+   } catch (error) {
+      console.log("error");
+   }
+
+ })
 
  module.exports = app;
 
