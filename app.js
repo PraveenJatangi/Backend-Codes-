@@ -3,7 +3,7 @@ require (".//config/database").connect();// databse connection
 const User= require ('./model/user');//created user 
 const bcrypt= require('bcryptjs')
  const jwt=require('jsonwebtoken')
-
+ const auth = require("./midleware/auth")
 
 const express = require("express");// express import
  const app = express();
@@ -81,7 +81,7 @@ const express = require("express");// express import
          {user_id:user._id,email},
          process.env.SECRET_KEY,
          {
-            expiresIn:"2h"
+            expiresIn:"3h"
          }
        )
        user.token=token
@@ -95,6 +95,12 @@ const express = require("express");// express import
       console.log("error");
    }
 
+ })
+
+ //dashboard rout
+
+ app.get("/dashboard",auth,(req,res)=>{
+   res.send("welcome to dashboard")
  })
 
  module.exports = app;
